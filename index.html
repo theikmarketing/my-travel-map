@@ -2,32 +2,65 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>나의 대한민국 여행 지도</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="capture-area">
         <header>
             <h1>🚩 나의 여행 지도</h1>
             <div id="stats-container">
                 <div class="stat-item">
-                    <span class="label">정복한 도시</span>
-                    <span id="visited-count" class="value">0</span>
+                    <span class="label">가본 곳</span>
+                    <span class="value" style="color: #2ecc71;">
+                        <span id="visited-count">0</span><span class="unit"> / <span id="total-count">0</span></span>
+                    </span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">가고 싶은 곳</span>
+                    <span id="wish-count" class="value" style="color: #3498db;">0</span>
                 </div>
                 <div class="stat-item">
                     <span class="label">정복률</span>
-                    <span id="progress-percent" class="value">0%</span>
+                    <span id="progress-percent" class="value">0.0%</span>
                 </div>
             </div>
+
+          <div class="mode-selector">
+            <label class="mode-btn">
+                <input type="radio" name="map-mode" value="visited" checked>
+                <div class="mode-content">
+                    <span class="mode-icon">🚩</span>
+                    <span class="mode-label">가본 곳</span>
+                </div>
+            </label>
+            <label class="mode-btn">
+                <input type="radio" name="map-mode" value="wishlist">
+                <div class="mode-content">
+                    <span class="mode-icon">💙</span>
+                    <span class="mode-label">가고 싶은 곳</span>
+                </div>
+            </label>
+        </div>
         </header>
         
         <div id="map"></div>
         
-        <footer>
-            <p>도시를 클릭하여 방문 기록을 남기세요. 데이터는 브라우저에 자동 저장됩니다.</p>
-        </footer>
+        <div class="action-group">
+            <button id="capture-btn">📸 지도 이미지 저장</button>
+            <button id="reset-btn">🔄 전체 초기화</button>
+        </div>
+    </div>
+
+    <div id="city-info-card">
+        <div class="card-text">
+            <span id="card-city-name" class="city-name">도시 이름</span>
+            <span id="card-city-status" class="city-status">방문 기록 없음</span>
+        </div>
+        <button class="close-card" onclick="document.getElementById('city-info-card').classList.remove('show')">✕</button>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

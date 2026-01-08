@@ -1,72 +1,151 @@
 :root {
-    --primary-color: #4a90e2;
-    --bg-color: #f8f9fa;
-    --card-bg: #ffffff;
+    --visited-color: #2ecc71;
+    --wish-color: #3498db;
+    --bg-color: #f1f3f5;
 }
 
-body {
-    font-family: 'Pretendard', -apple-system, sans-serif;
-    background-color: var(--bg-color);
-    margin: 0;
-    padding: 20px;
+body { font-family: 'Pretendard', -apple-system, sans-serif; background-color: var(--bg-color); margin: 0; padding: 10px; display: flex; justify-content: center; }
+.container { max-width: 600px; width: 100%; position: relative; }
+
+header { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; margin-bottom: 10px; }
+h1 { font-size: 1.2rem; margin: 0 0 15px 0; color: #333; }
+
+#stats-container { display: flex; justify-content: space-around; margin-bottom: 15px; }
+.stat-item .label { font-size: 0.75rem; color: #888; display: block; margin-bottom: 3px; }
+.stat-item .value { font-size: 1.2rem; font-weight: bold; }
+.unit { font-size: 0.8rem; color: #adb5bd; font-weight: normal; }
+
+#mode-selector { background: #f8f9fa; padding: 8px 15px; border-radius: 50px; display: inline-block; border: 1px solid #e9ecef; }
+#mode-selector label { font-size: 0.85rem; font-weight: 600; cursor: pointer; padding: 0 5px; }
+
+#map { height: 500px; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); background: white; }
+
+.action-group { display: flex; gap: 10px; margin-top: 10px; }
+#capture-btn, #reset-btn { flex: 1; border: none; padding: 12px; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 0.9rem; transition: opacity 0.2s; }
+#capture-btn { background: #6c5ce7; color: white; }
+#reset-btn { background: #dee2e6; color: #495057; }
+
+#city-info-card {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    background: white;
+    padding: 15px 22px;
+    border-radius: 20px;
+    box-shadow: 0 -5px 25px rgba(0,0,0,0.15);
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2000;
+}
+#city-info-card.show { bottom: 30px; }
+.city-name { display: block; font-size: 1.05rem; font-weight: bold; color: #222; }
+.city-status { font-size: 0.85rem; margin-top: 2px; display: block; }
+.close-card { background: #f1f3f5; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; color: #adb5bd; }
+
+path.leaflet-interactive:focus { outline: none; }
+/* 모드 선택기 컨테이너 */
+.mode-selector {
+    display: flex;
+    gap: 15px;
     justify-content: center;
-}
-
-.container {
-    max-width: 1000px;
-    width: 100%;
-}
-
-header {
-    text-align: center;
     margin-bottom: 20px;
-    background: var(--card-bg);
-    padding: 20px;
-    border-radius: 15px;
+}
+
+/* 라디오 버튼 숨기기 */
+.mode-btn input[type="radio"] {
+    display: none;
+}
+
+/* 버튼 형태 개선 */
+.mode-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 90px;
+    background: #ffffff;
+    border: 2px solid #e9ecef;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
-h1 { margin: 0 0 15px 0; color: #333; }
-
-#stats-container {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
+.mode-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
 }
 
-.stat-item {
-    display: flex;
-    flex-direction: column;
+.mode-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #495057;
 }
 
-.stat-item .label { font-size: 0.9rem; color: #666; }
-.stat-item .value { font-size: 1.5rem; font-weight: bold; color: var(--primary-color); }
-
-#map {
-    height: 650px;
-    border-radius: 15px;
-    border: none;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+/* 선택 시 스타일 강조 */
+.mode-btn input[value="visited"]:checked + .mode-content {
+    border-color: #2ecc71;
+    background-color: #f1fbf5;
+    transform: scale(1.05);
+}
+.mode-btn input[value="visited"]:checked + .mode-content .mode-label {
+    color: #2ecc71;
 }
 
-/* 검은 사각형 테두리 제거 */
-path.leaflet-interactive:focus {
-    outline: none;
+.mode-btn input[value="wishlist"]:checked + .mode-content {
+    border-color: #3498db;
+    background-color: #f0f7fd;
+    transform: scale(1.05);
+}
+.mode-btn input[value="wishlist"]:checked + .mode-content .mode-label {
+    color: #3498db;
 }
 
-footer {
+/* 독도 라벨 스타일 */
+.dokdo-label {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #495057 !important;
+    font-weight: bold !important;
+    font-size: 12px !important;
+}
+/* 독도 텍스트 전용 스타일 */
+.dokdo-label-only {
+    color: #495057;         /* 진한 회색 */
+    font-weight: 800;       /* 아주 굵게 */
+    font-size: 13px;        /* 글자 크기 */
     text-align: center;
-    margin-top: 15px;
-    color: #888;
-    font-size: 0.85rem;
+    white-space: nowrap;
+    text-shadow:            /* 글자가 잘 보이도록 흰색 외곽선 효과 */
+        -1px -1px 0 #fff,  
+         1px -1px 0 #fff,
+        -1px  1px 0 #fff,
+         1px  1px 0 #fff;
+}
+/* 독도 텍스트 스타일 */
+.dokdo-label-only {
+    color: #343a40;
+    font-weight: 800;
+    font-size: 16px;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
+    letter-spacing: 1px;
 }
 
-/* 툴팁 디자인 */
-.leaflet-tooltip {
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 4px 8px;
+/* 정복 축하 애니메이션 */
+@keyframes congrats {
+    from { transform: scale(1); filter: brightness(1); }
+    to { transform: scale(1.1); filter: brightness(1.2); }
+}
+
+#card-city-status {
+    display: inline-block;
 }
