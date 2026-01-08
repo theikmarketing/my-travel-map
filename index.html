@@ -9,8 +9,10 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
-    <div class="container" id="capture-area">
-        <header>
+    <div id="capture-area">
+        <div id="map"></div>
+
+        <header class="overlay-header">
             <h1>🚩 나의 여행 지도</h1>
             <div id="stats-container">
                 <div class="stat-item">
@@ -29,38 +31,36 @@
                 </div>
             </div>
 
-          <div class="mode-selector">
-            <label class="mode-btn">
-                <input type="radio" name="map-mode" value="visited" checked>
-                <div class="mode-content">
-                    <span class="mode-icon">🚩</span>
-                    <span class="mode-label">가본 곳</span>
-                </div>
-            </label>
-            <label class="mode-btn">
-                <input type="radio" name="map-mode" value="wishlist">
-                <div class="mode-content">
-                    <span class="mode-icon">💙</span>
-                    <span class="mode-label">가고 싶은 곳</span>
-                </div>
-            </label>
-        </div>
+            <div class="mode-selector">
+                <label class="mode-btn">
+                    <input type="radio" name="map-mode" value="visited" checked>
+                    <div class="mode-content">
+                        <span class="mode-icon">🚩</span>
+                        <span class="mode-label">가본 곳</span>
+                    </div>
+                </label>
+                <label class="mode-btn">
+                    <input type="radio" name="map-mode" value="wishlist">
+                    <div class="mode-content">
+                        <span class="mode-icon">💙</span>
+                        <span class="mode-label">가고 싶은 곳</span>
+                    </div>
+                </label>
+            </div>
         </header>
         
-        <div id="map"></div>
-        
-        <div class="action-group">
+        <div class="action-group overlay-actions">
             <button id="capture-btn">📸 지도 이미지 저장</button>
             <button id="reset-btn">🔄 전체 초기화</button>
         </div>
-    </div>
 
-    <div id="city-info-card">
-        <div class="card-text">
-            <span id="card-city-name" class="city-name">도시 이름</span>
-            <span id="card-city-status" class="city-status">방문 기록 없음</span>
+        <div id="city-info-card">
+            <div class="card-text">
+                <span id="card-city-name" class="city-name">도시 이름</span>
+                <span id="card-city-status" class="city-status">방문 기록 없음</span>
+            </div>
+            <button class="close-card" onclick="document.getElementById('city-info-card').classList.remove('show')">✕</button>
         </div>
-        <button class="close-card" onclick="document.getElementById('city-info-card').classList.remove('show')">✕</button>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
